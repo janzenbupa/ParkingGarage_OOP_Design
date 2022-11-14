@@ -1,0 +1,20 @@
+{
+    "ParkingSpace":{
+        "SpaceId": "1",
+        "CarType": null,
+        "IsOpen": null
+    },
+    "PaymentInformation":{
+        "CardNumber":"arbitrary credit card number",
+        "ExpirationDate": "12/31/2050",
+        "CardholderName": "John Doe",
+        "Cvv": "999"
+    },
+    "Car":{
+        "Brand": "Toyota",
+        "Year":"2022",
+        "Color": "Red",
+        "CarType": "Full",
+        "LicensePlate": "111 PPP"
+    }
+}

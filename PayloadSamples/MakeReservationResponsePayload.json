@@ -1,0 +1,8 @@
+{
+    "ReservationId":"some long type indicating a successful save",
+    "ParkingSpace":{
+        "SpaceId":"space id that was saved",
+        "IsOpen": false
+    },
+    "ResponseCode":"Successfully reserved space"
+}

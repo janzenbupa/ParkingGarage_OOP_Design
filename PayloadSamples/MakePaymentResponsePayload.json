@@ -1,0 +1,4 @@
+{
+    "Id": "long data type identifier which will indicate the actual request",
+    "ResponseCode": "Successfully processed payment"
+}

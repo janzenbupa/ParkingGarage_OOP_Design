@@ -1,0 +1,8 @@
+{
+    "PaymentInformation":{
+        "CardNumber":"arbitrary credit card number",
+        "ExpirationDate": "12/31/2050",
+        "CardholderName": "John Doe",
+        "Cvv": "999"
+    }
+}

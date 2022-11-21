@@ -4,3 +4,8 @@ be implemented. A user interface could display a list of available parking space
 
 
 ![Screenshot 2022-11-13 172756](https://user-images.githubusercontent.com/62074171/201561217-82428218-81d4-441b-b17e-88337c7249f4.png)
+
+Below is an ERD. 
+
+![Screenshot 2022-11-20 150231](https://user-images.githubusercontent.com/62074171/202931384-c4b60599-84d2-45dd-b261-cde5c457d198.png)
+

@@ -1,0 +1,14 @@
+{
+  "ParkingSpaces": [
+    {
+      "SpaceId": 1,
+      "IsOpen": true,
+      "CarType": 1
+    },
+    {
+      "SpaceId": 2,
+      "IsOpen": true,
+      "CarType": 2
+    }
+  ]
+}

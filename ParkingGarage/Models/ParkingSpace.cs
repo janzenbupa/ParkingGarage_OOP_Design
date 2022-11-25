@@ -1,7 +1,5 @@
 using System;
-using Enums;
-
-
+using ParkingGarage.Models.Enums;
 
 namespace ParkingGarage.Models
 {

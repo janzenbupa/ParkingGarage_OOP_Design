@@ -1,12 +1,15 @@
 using System;
-using Models;
+using ParkingGarage.Models;
+
+
 
 namespace ParkingGarage.Models.Payloads
 {
-    public class ReservationResponse
+    public class ReservationRequest
     {
         public long ReservationId { get; set; }
         public ParkingSpace ParkingSpace { get; set; }
-        public string ResponseCode { get; set; }
+        public PaymentInformation PaymentInformation { get; set; }
+        public Car Car { get; set; }
     }
 }

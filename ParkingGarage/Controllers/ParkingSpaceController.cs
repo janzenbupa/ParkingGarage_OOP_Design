@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ParkingGarage.BL;
 using ParkingGarage.Models.Payloads;
 
 namespace ParkingGarage.Controllers
@@ -8,11 +9,21 @@ namespace ParkingGarage.Controllers
     [ApiController]
     public class ParkingSpaceController : ControllerBase
     {
+        private readonly IParkingGarage<ParkingSpaceResponse> _parkingGarage;
+
+        public ParkingSpaceController(IParkingGarage<ParkingSpaceResponse> parkingGarage)
+        {
+            _parkingGarage = parkingGarage;
+        }
+
+
         [HttpGet]
         public ParkingSpaceResponse Get()
         {
             //perform db logic to return a list of parking spaces
-            return new ParkingSpaceResponse();
+            var response = _parkingGarage.ProcessRequest();
+
+            return response;
         }
     }
 }

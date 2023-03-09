@@ -2,7 +2,7 @@
 {
     public interface IParkingGarage<T, G>
     {
-        public T ProcessRequest(G request);
+        public Task<T> ProcessRequest(G request);
     }
 
     public interface IParkingGarage<T>

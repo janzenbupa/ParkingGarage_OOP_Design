@@ -19,10 +19,10 @@ namespace ParkingGarage.Controllers
 
 
         [HttpPost]
-        public PaymentResponse Post(PaymentRequest request)
+        public async Task<PaymentResponse> Post(PaymentRequest request)
         {
             //This could be it's own service that accepts and processes payments.
-            var response = _parkingGarage.ProcessRequest(request);
+            var response = await _parkingGarage.ProcessRequest(request);
             return response;
         }
     }

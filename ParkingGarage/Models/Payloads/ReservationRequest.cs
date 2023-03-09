@@ -11,5 +11,6 @@ namespace ParkingGarage.Models.Payloads
         public ParkingSpace ParkingSpace { get; set; }
         public PaymentInformation PaymentInformation { get; set; }
         public Car Car { get; set; }
+        public int Length { get; set; }
     }
 }

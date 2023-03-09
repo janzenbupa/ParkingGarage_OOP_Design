@@ -10,11 +10,12 @@
         "CardholderName": "John Doe",
         "Cvv": "999"
     },
-    "Car":{
-        "Brand": "Toyota",
-        "Year":"2022",
-        "Color": "Red",
-        "CarType": "Full",
-        "LicensePlate": "111 PPP"
-    }
+  "Car": {
+    "Brand": "Toyota",
+    "Year": "2022",
+    "Color": "Red",
+    "CarType": "Full",
+    "LicensePlate": "111 PPP"
+  },
+  "Length": 2
 }

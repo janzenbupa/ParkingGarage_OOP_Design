@@ -4,7 +4,7 @@ namespace ParkingGarage.BL.Mappers
 {
     public static class DALMapper
     {
-        public static DAL.Models.Reservation BuildReservationRequest(Models.Payloads.ReservationRequest request, long carId)
+        public static DAL.Models.Reservation BuildReservationRequest(Models.Payloads.ReservationRequest request, long carId, long spaceId)
         {
             DAL.Models.Reservation r = new DAL.Models.Reservation
             {
@@ -12,7 +12,7 @@ namespace ParkingGarage.BL.Mappers
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now.AddHours(request.Length),
                 CarId = carId,
-                SpaceId = request.ParkingSpace.SpaceId
+                SpaceId = spaceId
             };
 
             return r;

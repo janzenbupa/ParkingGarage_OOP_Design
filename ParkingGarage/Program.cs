@@ -1,6 +1,7 @@
 using ParkingGarage.BL;
-using ParkingGarage.BL.SharedLogic;
+using ParkingGarage.DAL.ConnectionLogic.cs.SP;
 using ParkingGarage.DAL.ConnectionLogic.SP;
+using ParkingGarage.DAL.ConnectionLogic.SP.Interfaces;
 using ParkingGarage.Models.Payloads;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IParkingGarage<PaymentResponse, PaymentRequest>, PaymentLogic>();
 builder.Services.AddScoped<IParkingGarage<ParkingSpaceResponse>, ParkingSpaceLogic>();
 builder.Services.AddScoped<IParkingGarage<ReservationResponse, ReservationRequest>, ReservationLogic>();
-builder.Services.AddSingleton<IShare, Logic>();
-builder.Services.AddSingleton<IStoredProcedure, CarSP>();
+
+builder.Services.AddTransient<ICarSP, CarSP>();
+builder.Services.AddTransient<IParkingSpaceSP, ParkingSpaceSP>();
+builder.Services.AddSingleton<IReservationSP, ReservationSP>();
+
+builder.Services.AddSingleton<IDictionary<string, IStoredProcedure>>(service =>
+    new Dictionary<string, IStoredProcedure>
+    {
+        { "CarSP", service.GetRequiredService<ICarSP>() },
+        { "ParkingSpaceSP", service.GetRequiredService<IParkingSpaceSP>() },
+        { "ReservationSP", service.GetRequiredService<IReservationSP>() }
+    }
+);
 
 builder.Configuration.AddJsonFile("appsettings.json", false);
 builder.Configuration.AddEnvironmentVariables();

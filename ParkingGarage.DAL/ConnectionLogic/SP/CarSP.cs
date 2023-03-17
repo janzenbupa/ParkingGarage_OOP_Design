@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using ParkingGarage.DAL.ConnectionLogic.SP.Interfaces;
 using ParkingGarage.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ParkingGarage.DAL.ConnectionLogic.SP
 {
-    public class CarSP : IStoredProcedure
+    public class CarSP : ICarSP
     {
         private readonly string _connectionString;
 
@@ -19,8 +20,9 @@ namespace ParkingGarage.DAL.ConnectionLogic.SP
             _connectionString = configuration.GetConnectionString(ServiceSettings.DatabaseName) ?? String.Empty;
         }
 
-        public async Task<long> Save<T>(T obj)
+        public async Task<G> GetOrSave<T, G>(T obj)
         {
+
             var car = obj as Car;
 
             long ans = -1;
@@ -54,7 +56,7 @@ namespace ParkingGarage.DAL.ConnectionLogic.SP
 
             }
 
-            return ans;
+            return (G)Convert.ChangeType(ans, typeof(G));
         }
     }
 }

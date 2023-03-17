@@ -1,4 +1,6 @@
-﻿using ParkingGarage.DAL.Models;
+﻿using Microsoft.Extensions.Configuration;
+using ParkingGarage.DAL.ConnectionLogic.SP.Interfaces;
+using ParkingGarage.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,28 +11,35 @@ using System.Threading.Tasks;
 
 namespace ParkingGarage.DAL.ConnectionLogic.SP
 {
-    public static class ParkingSpaceSP
+    public class ParkingSpaceSP : IParkingSpaceSP
     {
-        private static readonly string _connectionString;
 
-        static ParkingSpaceSP()
+        //This class probably needs to be rebuilt to not call a database object that returns an entire row. 
+
+        private readonly string _connectionString;
+
+        public ParkingSpaceSP(IConfiguration configuration)
         {
-            _connectionString = ConfigurationManager.ConnectionStrings[ServiceSettings.DatabaseName].ConnectionString;
+            _connectionString = configuration.GetConnectionString(ServiceSettings.DatabaseName);
         }
 
-        public static async Task<DAL.Models.ParkingSpace> SaveOrGetParkingSpace(ParkingSpace parkingSpace)
+        public async Task<G> GetOrSave<T, G>(T obj)
         {
             ParkingSpace ans = new ParkingSpace();
+
+            var parkingSpace = obj as ParkingSpace;
 
             SqlDataReader reader = null;
 
             using (SqlConnection sqlCon = new SqlConnection(_connectionString))
             {
-                using (SqlCommand sqlCom = new SqlCommand("exec dbo.GetParkingSpace", sqlCon))
+                using (SqlCommand sqlCom = new SqlCommand("exec dbo.GetParkingSpace @spaceId, @isOpen, @carType", sqlCon))
                 {
-                    sqlCom.Parameters.AddWithValue("@spaceId", parkingSpace.SpaceId);
-                    sqlCom.Parameters.AddWithValue("@isOpen", parkingSpace.IsOpen);
-                    sqlCom.Parameters.AddWithValue("@carType", parkingSpace.CarType);
+                    sqlCom.Parameters.Add(new SqlParameter("@spaceId", parkingSpace.SpaceId));
+                    sqlCom.Parameters.Add(new SqlParameter("@isOpen", parkingSpace.IsOpen));
+                    sqlCom.Parameters.Add(new SqlParameter("@carType", parkingSpace.CarType));
+
+                    sqlCon.Open();
 
                     await sqlCom.ExecuteNonQueryAsync();
 
@@ -46,7 +55,7 @@ namespace ParkingGarage.DAL.ConnectionLogic.SP
 
             }
 
-            return ans;
+            return (G)Convert.ChangeType(ans, typeof(G));
         }
     }
 }

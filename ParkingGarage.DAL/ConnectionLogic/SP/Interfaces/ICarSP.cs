@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParkingGarage.DAL.ConnectionLogic.SP
+namespace ParkingGarage.DAL.ConnectionLogic.SP.Interfaces
 {
-    public interface IStoredProcedure
+    public interface ICarSP : IStoredProcedure
     {
-        Task<G> GetOrSave<T, G>(T obj);
     }
 }

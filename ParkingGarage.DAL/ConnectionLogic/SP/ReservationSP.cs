@@ -1,4 +1,7 @@
-﻿using ParkingGarage.DAL.Models;
+﻿using Microsoft.Extensions.Configuration;
+using ParkingGarage.DAL.ConnectionLogic.SP;
+using ParkingGarage.DAL.ConnectionLogic.SP.Interfaces;
+using ParkingGarage.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,30 +12,34 @@ using System.Threading.Tasks;
 
 namespace ParkingGarage.DAL.ConnectionLogic.cs.SP
 {
-    public static class ReservationSP
+    public class ReservationSP : IReservationSP
     {
-        private static readonly string _connectionString;
+        private readonly string _connectionString;
 
-        static ReservationSP()
+        public ReservationSP(IConfiguration configuration)
         {
-            _connectionString = ConfigurationManager.ConnectionStrings[ServiceSettings.DatabaseName].ConnectionString;
+            _connectionString = configuration.GetConnectionString(ServiceSettings.DatabaseName);
         }
 
-        public static async Task<long> SaveReservation(Reservation reservation)
+        public async Task<G> GetOrSave<T, G>(T obj)
         {
             long ans = -1;
+            var reservation = obj as Reservation;
 
             SqlDataReader reader = null;
 
             using (SqlConnection sqlCon = new SqlConnection(_connectionString))
             {
-                using (SqlCommand sqlCom = new SqlCommand("exec dbo.SaveReservation", sqlCon))
+                using (SqlCommand sqlCom = 
+                    new SqlCommand("exec dbo.SaveReservation @rId, @startTime, @endTime, @carId, @spaceId", sqlCon))
                 {
-                    sqlCom.Parameters.AddWithValue("@rId", reservation.ReservationId);
-                    sqlCom.Parameters.AddWithValue("@startTime", reservation.StartTime);
-                    sqlCom.Parameters.AddWithValue("@endTime", reservation.EndTime);
-                    sqlCom.Parameters.AddWithValue("@spaceId", reservation.SpaceId);
-                    sqlCom.Parameters.AddWithValue("@carId", reservation.CarId);
+                    sqlCom.Parameters.Add(new SqlParameter("@rId", reservation.ReservationId));
+                    sqlCom.Parameters.Add(new SqlParameter("@startTime", reservation.StartTime));
+                    sqlCom.Parameters.Add(new SqlParameter("@endTime", reservation.EndTime));
+                    sqlCom.Parameters.Add(new SqlParameter("@spaceId", reservation.SpaceId));
+                    sqlCom.Parameters.Add(new SqlParameter("@carId", reservation.CarId));
+
+                    sqlCon.Open();
 
                     await sqlCom.ExecuteNonQueryAsync();
 
@@ -41,12 +48,12 @@ namespace ParkingGarage.DAL.ConnectionLogic.cs.SP
 
                 while (reader != null && reader.Read())
                 {
-                    ans = Convert.ToInt64(reader["@Reservation"]);
+                    ans = Convert.ToInt64(reader["Reservation"]);
                 }
                 
             }
 
-            return ans;
+            return (G)Convert.ChangeType(ans, typeof(G));
         }
     }
 }

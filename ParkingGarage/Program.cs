@@ -12,8 +12,8 @@ builder.Services.AddScoped<IParkingGarage<PaymentResponse, PaymentRequest>, Paym
 builder.Services.AddScoped<IParkingGarage<ParkingSpaceResponse>, ParkingSpaceLogic>();
 builder.Services.AddScoped<IParkingGarage<ReservationResponse, ReservationRequest>, ReservationLogic>();
 
-builder.Services.AddTransient<ICarSP, CarSP>();
-builder.Services.AddTransient<IParkingSpaceSP, ParkingSpaceSP>();
+builder.Services.AddSingleton<ICarSP, CarSP>();
+builder.Services.AddSingleton<IParkingSpaceSP, ParkingSpaceSP>();
 builder.Services.AddSingleton<IReservationSP, ReservationSP>();
 
 builder.Services.AddSingleton<IDictionary<string, IStoredProcedure>>(service =>

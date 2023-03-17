@@ -18,9 +18,9 @@ namespace ParkingGarage.Controllers
 
 
         [HttpPost]
-        public ReservationResponse Post(ReservationRequest request)
+        public async Task<ReservationResponse> Post(ReservationRequest request)
         {
-            var response = _parkingGarage.ProcessRequest(request);
+            var response = await _parkingGarage.ProcessRequest(request);
 
             return response;
         }

@@ -8,12 +8,14 @@ namespace ParkingGarage.BL
         public ParkingSpaceResponse ProcessRequest()
         {
             //Call database to retrieve parking spaces
-            return new ParkingSpaceResponse();
+            return new ParkingSpaceResponse { ParkingSpaces = new List<ParkingSpace>() };
         }
 
-        public bool ProcessRequest(ParkingSpace request)
+        public async Task<bool> ProcessRequest(ParkingSpace request)
         {
             //Call database, ensure parking space is currently free, set parking space to in-use (unavailable)
+            
+
             return true;//return true if reserving space succeeded
         }
 
